@@ -1,3 +1,10 @@
+locals {
+  common_tags = {
+    Project     = "Nauka Terraform"
+    Environment = "Dev"
+    Owner       = "5ilentRemedy"
+  }
+}
 terraform {
   required_providers {
     azurerm = {
@@ -8,7 +15,7 @@ terraform {
 
   backend "azurerm" {
     resource_group_name  = "rg-terraform-cloudshell"
-    storage_account_name = "silentremedywesteurope01"
+    storage_account_name = "silentremedybasic01"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
@@ -21,12 +28,13 @@ provider "azurerm" {
 resource "azurerm_resource_group" "rg_nauka" {
   name     = "rg-terraform-cloudshell"
   location = "francecentral"
+  tags     = local.common_tags
 }
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-nauka"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg_nauka.location
+  location            = "francecentral"
   resource_group_name = azurerm_resource_group.rg_nauka.name
 }
 
