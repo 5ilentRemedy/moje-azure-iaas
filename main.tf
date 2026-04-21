@@ -23,3 +23,27 @@ resource "azurerm_resource_group" "rg_nauka" {
   name     = "rg-terraform-cloudshell"
   location = "francecentral"
 }
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = "vnet-nauka"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.rg_nauka.location
+  resource_group_name = azurerm_resource_group.rg_nauka.name
+}
+
+resource "azurerm_subnet" "subnet" {
+  name                 = "internal"
+  resource_group_name  = azurerm_resource_group.rg_nauka.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
+variable "vnet_address_space" {
+  type    = list(string)
+  default = ["10.0.0.0/16"]
+}
+
+variable "location" {
+  type    = string
+  default = "francecentral"
+}
