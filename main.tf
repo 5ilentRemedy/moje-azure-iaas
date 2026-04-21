@@ -6,7 +6,6 @@ terraform {
     }
   }
 
-  # To jest Twój "bezpiecznik" - stan będzie w chmurze
   backend "azurerm" {
     resource_group_name  = "rg-terraform-cloudshell"
     storage_account_name = "silentremedywesteurope01"
